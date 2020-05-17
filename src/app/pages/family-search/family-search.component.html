@@ -1,0 +1,38 @@
+<div>
+    <form style="float: left;">
+        <div class="form-group form-inline">
+            Full text search: <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="Search..." (input)="search()" />
+        </div>
+    </form>
+    <div style="float: right;">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="viewGraph()" style="float: right;">View relationship graph</button>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Relation</th>
+            <th scope="col" *ngIf="currentUser.role == 'SuperAdmin'">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let member of filteredItems; let index=index">
+
+            <th scope="row">{{ index + 1 }}</th>
+            <td>
+                <ngb-highlight [result]="member.name" [term]="filter.value"></ngb-highlight>
+            </td>
+            <td>
+                <ngb-highlight [result]="member.relation" [term]="filter.value"></ngb-highlight>
+            </td>
+            <td *ngIf="currentUser.role == 'SuperAdmin'">
+                <button type="button" class="btn btn-primary" (click)="editData(member.name,index)">Edit</button>&nbsp;
+                <button type="button" class="btn btn-danger" (click)="deleteData(member.name)">Delete</button>&nbsp;
+            </td>
+        </tr>
+    </tbody>
+</table>
